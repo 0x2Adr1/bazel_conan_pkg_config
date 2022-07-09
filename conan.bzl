@@ -70,12 +70,11 @@ def _pkg_config(ctx, pkg_config_path, pkg_name, args):
     )
 
 
-def _conan_execute(ctx, pkg_config_path, pkg_name, pkg_version, should_build_from_source):
+def _conan_execute(ctx, pkg_config_path, pkg_name, pkg_version, install_args):
     conan_binary_path = _find_binary(ctx, "conan")
     args = [ "install", "-g", "pkg_config", "-if", pkg_config_path, "{}/{}@".format(pkg_name, pkg_version) ]
 
-    if should_build_from_source:
-        args.append("--build={}".format(pkg_name))
+    args += install_args
 
     _execute(
         ctx,
@@ -116,7 +115,7 @@ def _conan_dep_impl(ctx):
     pkg_config_path = ctx.path(".")
     pkg_version = ctx.attr.version
 
-    _conan_execute(ctx, pkg_config_path, pkg_name, pkg_version, ctx.attr.build_from_source)
+    _conan_execute(ctx, pkg_config_path, pkg_name, pkg_version, ctx.attr.conan_install_args)
 
     # Make sure the package exist
     _pkg_config(ctx, pkg_config_path, pkg_name, ["--exists"])
@@ -158,9 +157,8 @@ def _conan_dep_impl(ctx):
 
 conan_dep = repository_rule(
     attrs = {
-        "build_from_source": attr.bool(default = False, doc = "Dependency should be built from source"),
+        "conan_install_args": attr.string_list(default = [ "--build=missing" ], doc = "Arguments to append to the invocation to 'conan install'"),
         "version": attr.string(mandatory = True, doc = "Version number"),
-
         "ignore_opts": attr.string_list(doc = "Ignore listed opts in copts or linkopts."),
     },
 
