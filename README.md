@@ -14,8 +14,8 @@ Add the following in your `WORKSPACE`:
 ```bzl
 http_archive(
     name = "bazel_conan_pkg_config",
-    strip_prefix = "bazel_conan_pkg_config-master",
-    urls = ["https://github.com/0x2Adr1/bazel_conan_pkg_config/archive/master.zip"],
+    strip_prefix = "bazel_conan_pkg_config-main",
+    urls = ["https://github.com/0x2Adr1/bazel_conan_pkg_config/archive/main.zip"],
 )
 
 load("@bazel_conan_pkg_config//:conan.bzl", "conan_dep")
