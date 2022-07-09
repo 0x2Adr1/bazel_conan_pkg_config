@@ -26,8 +26,16 @@ conan_dep(
     name = "openssl",
     version = "3.0.3",
 
-    # The default is to build from source for conan packages not available in a binary form for your platform, i.e: --build=missing
-    # Change this policy if needed with the option below, for example, say you NEVER want to build a dependency from source:
+
+    # The default is to build from source for conan packages not available in
+    # a binary form for your platform, i.e: conan install --build=missing
+
+    # Note: Building a package relies on your host tools, so you will need
+    # for instance to have cmake installed if a package is using cmake as
+    # its build system and you build it from source
+
+    # You can change this policy if needed with the option below, for example,
+    # say you NEVER want to build a dependency from source:
     conan_install_args = [ "--build=never" ],
 )
 ```
